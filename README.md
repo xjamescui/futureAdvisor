@@ -1,4 +1,11 @@
 futureAdvisor code challenge
+----------------------------
+AngularJS + Node.js
+
+By: James Cui
+
+
+
 
 launch instruction:
 

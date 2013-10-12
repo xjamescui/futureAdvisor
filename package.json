@@ -1,6 +1,6 @@
 {
-  "name": "angualrjs-seed",
-  "description": "A starter project for angular js",
+  "name": "futureAdvisor Code Challenge",
+  "description": "internship question",
   "devDependencies": {
         "phantomjs" : "*",
         "karma" : "*",
