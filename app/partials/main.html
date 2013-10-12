@@ -1,0 +1,44 @@
+<div ng-init="init()">
+
+<table class="table table-bordered table-hover" >
+	<th></th>
+	<th class="active">Company (Total Firms: {{dataArray.length}})</th>
+	<th class="active">Short Code</th>
+	<th class="active">Return (2001-2010)</th>
+	<th class="active">Return (largest spurt) </th>
+	<th class="active">Range (largest spurt) </th>
+	<th class="active">Period (largest spurt) </th>
+	
+	<tr ng-repeat="firm in dataArray | orderBy: '-largestSpurt.growth'">
+		<td style="width:1%">
+		{{$index+1}}
+		</td>
+		<td>
+		{{firm.name}}  
+		</td>
+		<td style="width: 5%;">
+		{{firm.code}}
+		</td>
+
+		<td ng-show="firm.totalReturn > 0" class="success" style="width: 10%;">
+		{{firm.totalReturn | percentage}}
+		</td>
+		<td ng-show="firm.totalReturn < 0" class="danger" style="width: 10%;">
+		{{firm.totalReturn | percentage}}
+		</td>
+		
+		<td style="width: 10%;">
+		{{firm.largestSpurt.growth | percentage}}
+		</td>
+		<td style="width: 10%;">
+		{{firm.largestSpurt.min | currency}} - {{firm.largestSpurt.max | currency}}
+		</td>
+		<td>
+		{{firm.largestSpurt.startDate | date}} - {{firm.largestSpurt.endDate | date}}
+		</td>
+	
+		
+		
+	</tr>
+</table>
+</div>
