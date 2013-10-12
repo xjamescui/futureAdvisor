@@ -6,7 +6,6 @@
 	<th class="active">Short Code</th>
 	<th class="active">Return (2001-2010)</th>
 	<th class="active">Return (largest spurt) </th>
-	<th class="active">Range (largest spurt) </th>
 	<th class="active">Period (largest spurt) </th>
 	
 	<tr ng-repeat="firm in dataArray | orderBy: '-largestSpurt.growth'">
@@ -27,11 +26,8 @@
 		{{firm.totalReturn | percentage}}
 		</td>
 		
-		<td style="width: 10%;">
-		{{firm.largestSpurt.growth | percentage}}
-		</td>
-		<td style="width: 10%;">
-		{{firm.largestSpurt.min | currency}} - {{firm.largestSpurt.max | currency}}
+		<td style="width: 20%;">
+		{{firm.largestSpurt.growth | percentage}} ({{firm.largestSpurt.min | currency}} - {{firm.largestSpurt.max | currency}})
 		</td>
 		<td>
 		{{firm.largestSpurt.startDate | date}} - {{firm.largestSpurt.endDate | date}}
