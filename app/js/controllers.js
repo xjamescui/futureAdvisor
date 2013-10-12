@@ -6,27 +6,31 @@ angular.module('myApp.controllers', []).controller('mainController', ['$scope', 
 	function($scope, $http, DataResource, _) {
 
 
+		/**
+		*	Analyzes each firm and their numbers
+		*/
 		var analyzeNumbers = function(data) {
 
-			var numbers = []; //numbers of a single firm
-			var beginning = new Date(2001, 11 - 1, 1);
-			var spurtMin = 0;
-			var spurtMax = 0;
-			var spurtGrowth = 0;
-			var spurts = [];
-			var spurtStartDate = new Date(beginning);
-			var spurtEndDate = new Date(beginning);
-			var trendingUp = true;
+			var numbers = []; //all 120 numbers of a firm
+			var beginning = new Date(2001, 11 - 1, 1); //a reference for calculating spurtStartDate and spurtEndDate
+			var spurtMin = 0; //initial value in the spurt
+			var spurtMax = 0; //ending value in the spurt
+			var spurtGrowth = 0; //return within this spurt
+			var spurts = []; //keeps track of all spurts happened for a firm
+			var spurtStartDate = new Date(beginning); //record the starting date of a spurt
+			var spurtEndDate = new Date(beginning); //record the end date of a spurt
+			var trendingUp = true; //checks if we are in a spurt
 
-			var current = 0;
-			var previous = 0;
+			var current = 0; //pointer to a number (for the for-loop)
+			var previous = 0; //pointer to a number 1 position before current  (for the for-loop)
 
+			//iterate through each firm
 			for (var i = 0; i < data.length; i++) {
 
 				//numbers for one firm
 				numbers = data[i].numbers;
 
-				//analyze the numbers in this firm
+				//iterate through the numbers in this firm
 				for (var j = 0; j < numbers.length; j++) {
 
 					current = numbers[j];
@@ -43,6 +47,7 @@ angular.module('myApp.controllers', []).controller('mainController', ['$scope', 
 
 							}
 
+							//update return for this burst
 							spurtGrowth = (current - spurtMin) / spurtMin * 100;
 						} else {
 
@@ -58,13 +63,14 @@ angular.module('myApp.controllers', []).controller('mainController', ['$scope', 
 									"endDate": new Date(spurtEndDate)
 								});
 
-								//reset date to record next spurt
+								//reset dates and other vars to get ready to record next spurt
 								spurtStartDate.setFullYear(beginning.getFullYear());
 								spurtEndDate.setFullYear(beginning.getFullYear());
 								trendingUp = false;
 							}
 						}
 					} else {
+						//you don't have a "previous" if "current" is the first element in the array
 						spurtMin = current;
 					}
 				}
@@ -73,6 +79,7 @@ angular.module('myApp.controllers', []).controller('mainController', ['$scope', 
 				data[i].largestSpurt = _.max(spurts, function(spurt) {
 					return spurt.growth;
 				});
+				//reset spurts array as we move on to analyze another firm
 				spurts = [];
 
 				//calculate total return from day 1 to 10 years later
@@ -88,6 +95,7 @@ angular.module('myApp.controllers', []).controller('mainController', ['$scope', 
 
 				var firmDataArray = data.values;
 
+				//Main function: does the heavy-lifting for analysis
 				analyzeNumbers(firmDataArray);
 
 				$scope.dataArray = data.values;
