@@ -38,33 +38,10 @@ function HttpServer(handlers) {
   this.server = http.createServer(this.handleRequest_.bind(this));
 }
 
-
-/**
-* create a JSON file out of the data in raw txt file 
-*
-*/
-function parseData(){
-  
- fs.exists('./data.json', function(exists){
-    
-    //if JSON file is not already there
-    if(!exists){
-      fs.readFile('./data.txt', 'utf8', function(err, data){
-          if(err) throw err;
-          
-          console.log('OK: read data.txt');
-      });
-    }
- });
-
-}
-
 HttpServer.prototype.start = function(port) {
   this.port = port;
   this.server.listen(port);
   util.puts('Http Server running at http://localhost:' + port + '/');
-
-  parseData();
 };
 
 HttpServer.prototype.parseUrl_ = function(urlString) {
